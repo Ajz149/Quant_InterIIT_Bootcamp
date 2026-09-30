@@ -1,0 +1,17 @@
+numpy
+pandas
+pyarrow
+requests
+pyyaml
+tqdm
+scipy
+statsmodels
+scikit-learn
+lightgbm
+xgboost
+shap
+lime
+matplotlib
+plotly
+jupyter
+pytest

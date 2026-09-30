@@ -1,0 +1,9 @@
+# data & outputs
+data/raw/*
+data/interim/*
+data/processed/*
+!data/**/.gitkeep
+*.parquet
+*.csv
+.ipynb_checkpoints/
+.env
