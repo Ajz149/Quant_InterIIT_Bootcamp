@@ -57,3 +57,23 @@ def bollinger(close: pd.Series, window: int = 20, k: float = 2.0):
     pct_b = (close - lower) / (upper - lower)
     width = (upper - lower) / mid
     return pct_b, width
+
+    
+
+def efficiency_ratio(close: pd.Series, n: int) -> pd.Series:
+    """Kaufman efficiency ratio: 1 = straight-line trend, 0 = pure chop."""
+    net = (close - close.shift(n)).abs()
+    path = close.diff().abs().rolling(n).sum()
+    return net / path.replace(0, np.nan)
+
+
+def adx(high: pd.Series, low: pd.Series, close: pd.Series, n: int = 14):
+    """Wilder ADX with +DI / -DI. Returns (adx, plus_di, minus_di)."""
+    up, dn = high.diff(), -low.diff()
+    plus_dm = pd.Series(np.where((up > dn) & (up > 0), up, 0.0), index=high.index)
+    minus_dm = pd.Series(np.where((dn > up) & (dn > 0), dn, 0.0), index=high.index)
+    tr = wilder(true_range(high, low, close), n)
+    plus_di = 100 * wilder(plus_dm, n) / tr
+    minus_di = 100 * wilder(minus_dm, n) / tr
+    dx = 100 * (plus_di - minus_di).abs() / (plus_di + minus_di).replace(0, np.nan)
+    return wilder(dx, n), plus_di, minus_di
