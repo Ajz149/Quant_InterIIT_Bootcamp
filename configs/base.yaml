@@ -1,17 +1,23 @@
-﻿data:
-  symbols:
-    - BTCUSDT
-    - ETHUSDT
-  interval: "1h"
+project:
+  seed: 42
+
+data:
+  symbols: [BTCUSDT, ETHUSDT]
+  interval: 1h
   start: "2021-01-01"
   end: "2025-12-31"
-  raw_dir: "data/raw"
-  interim_dir: "data/interim"
-  processed_dir: "data/processed"
+  timezone: UTC
 
-trading:
-  fee_rate: 0.0015  # 0.15% per transaction (fee + slippage)
-  initial_capital: 10000.0
+costs:
+  fee_slippage_per_side: 0.0015   # 0.15% per transaction (PS requirement)
 
-system:
-  seed: 42
+execution:
+  signal_at: close
+  fill_at: next_open
+  allow_short: false
+  initial_capital: 10000
+
+splits:
+  train: ["2021-01-01", "2023-12-31"]
+  validation: ["2024-01-01", "2024-12-31"]
+  test: ["2025-01-01", "2025-12-31"]
